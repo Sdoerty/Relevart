@@ -96,7 +96,7 @@ class _TravelTableState extends State<TravelTable>
                             ),
                           Container(
                             child:
-                            Padding(padding: EdgeInsets.only(bottom: 25),),
+                            Padding(padding: EdgeInsets.only(bottom: 25)),
                           )
                         ],
                       ),
