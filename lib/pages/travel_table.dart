@@ -46,14 +46,10 @@ class _TravelTableState extends State<TravelTable>
           centerTitle: true,
           bottom: const TabBar(
             tabs: <Widget>[
-              // Вкладка путешествий в процессе
-              Tab(
-                icon: Icon(Icons.coffee),
-              ),
               // Вкладка завершенных путешествий
-              Tab(
-                icon: Icon(Icons.call_split),
-              ),
+              Tab(icon: Icon(Icons.coffee), text: 'Мои путешествия'),
+              // Вкладка путешествий в процессе
+              Tab(icon: Icon(Icons.call_split), text: 'В процессе'),
             ],
           ),
         ),
@@ -63,40 +59,55 @@ class _TravelTableState extends State<TravelTable>
             SafeArea(
               child: Column(
                 children: [
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(
-                              left: 0, top: 25, right: 0, bottom: 0)),
-                      Text('Завершенные путешествия',
-                          style: TextStyle(fontSize: 18))
-                    ],
-                  ),
-                  Divider(),
                   // Карточка путешествия
                   Container(
-                    margin:EdgeInsets.all(8.0),
+                    margin: const EdgeInsets.all(8.0),
                     child: Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0))),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
-                          ClipRRect(
+                          const ClipRRect(
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10.0),
                                 topRight: Radius.circular(10.0),
                               ),
-                              child: Image(image: AssetImage('assets/mountain.jpeg'))
+                              child: Image(
+                                  image: AssetImage('assets/mountain.jpeg'))),
+                          const ListTile(
+                            title:
+                                Text('Финляндия - Норвегия - Швеция - Эстония'),
+                            subtitle: Text(
+                                'Путешествие по Скандинавским странам с конца 2019 года до конца зимы 2020 года'),
                           ),
-                          ListTile(
-                            title: Text('Финляндия - Норвегия - Швеция - Эстония'),
-                            subtitle: Text('Путешествие по Скандинавским странам с конца 2019 года до конца зимы 2020 года'),
-                            ),
+                          const Divider(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  Text('aaaa')
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text('aaaa')
+
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text('aaaa')
+
+                                ],
+                              )
+                            ],
+                          ),
                           Container(
-                            child:
-                            Padding(padding: EdgeInsets.only(bottom: 25)),
+                            child: const Padding(
+                                padding: EdgeInsets.only(bottom: 25)),
                           )
                         ],
                       ),
@@ -109,18 +120,18 @@ class _TravelTableState extends State<TravelTable>
             SafeArea(
               child: Column(
                 children: [
-                  Divider(),
+                  const Divider(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
+                      const Padding(
                           padding: EdgeInsets.only(
                               left: 0, top: 25, right: 0, bottom: 0)),
-                      Text('Незавершенные путешествия',
+                      const Text('Незавершенные путешествия',
                           style: TextStyle(fontSize: 18))
                     ],
                   ),
-                  Divider(),
+                  const Divider(),
                 ],
               ),
             ),
