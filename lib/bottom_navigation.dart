@@ -33,7 +33,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.blueGrey,
         title: OutlinedButton.icon(
             onPressed: () {},
             style: OutlinedButton.styleFrom(
@@ -66,7 +66,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.teal[800],
+        backgroundColor: Colors.blueGrey,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
