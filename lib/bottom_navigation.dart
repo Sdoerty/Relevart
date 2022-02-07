@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relevart/pages/profile.dart';
 import 'package:relevart/pages/travel_table.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -14,9 +15,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     // Bottom navigation TravelTable
     TravelTable(),
     // Bottom navigation Profile
-    Text(
-      'Index 1: Profile',
-    ),
+    Profile(),
     // Bottom navigation Notifications
     Text(
       'Index 2: Notifications',

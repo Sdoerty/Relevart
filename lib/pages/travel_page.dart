@@ -238,8 +238,8 @@ class _TravelPageState extends State<TravelPage> {
         ),
       ),
       Step(
-        title: Text('ДЕНЬ 3'),
-        subtitle: Text('13.01.2021'),
+        title: Text('ДЕНЬ 2'),
+        subtitle: Text('12.01.2021'),
         content: Column(
           children: [
             SizedBox(
