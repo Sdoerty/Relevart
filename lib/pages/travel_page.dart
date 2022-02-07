@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TravelPage extends StatefulWidget {
@@ -8,7 +9,7 @@ class TravelPage extends StatefulWidget {
 }
 
 class _TravelPageState extends State<TravelPage> {
-  List<String> days = <String>["Monday", "Tuesday"];
+  int currentStep = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +23,7 @@ class _TravelPageState extends State<TravelPage> {
       ], backgroundColor: Colors.transparent, elevation: 0.0),
       // впиливает body под низ appBar-a:
       extendBodyBehindAppBar: true,
-      body: Container(
-          child: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Image(
@@ -51,7 +51,7 @@ class _TravelPageState extends State<TravelPage> {
                 children: [
                   Flexible(
                     child: Text(
-                        "Путешествие по Скандинавским странам с конца 2019 года до конца зимы 2020 года",
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                         style: TextStyle(fontSize: 16, color: Colors.black54)),
                   ),
                 ],
@@ -60,34 +60,247 @@ class _TravelPageState extends State<TravelPage> {
             Padding(
               padding: EdgeInsets.only(left: 15, top: 15, right: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text("12.04.2021",
+                    child: Text("11.01.2021 - 18.01.2021",
                         style: TextStyle(fontSize: 16, color: Colors.black54)),
                   ),
                 ],
               ),
             ),
             Divider(),
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: days.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Center(
-                      child: Card(
-                          child: InkWell(
-                              splashColor: Colors.blue.withAlpha(30),
-                              child: const SizedBox(
-                                width: 300,
-                                height: 100,
-                                child: Text('AAA'),
-                              ))));
-                })
+            Stepper(
+              physics: NeverScrollableScrollPhysics(),
+              steps: getSteps(),
+              controlsBuilder: (BuildContext context, ControlsDetails details) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    OutlinedButton(
+                      onPressed: details.onStepContinue,
+                      child: const Text('СЛЕДУЮЩИЙ ДЕНЬ'),
+                    ),
+                    OutlinedButton(
+                      onPressed: details.onStepCancel,
+                      child: const Text('НАЗАД'),
+                    ),
+                  ],
+                );
+              },
+              currentStep: currentStep,
+              onStepTapped: (int step) {
+                setState(() {
+                  currentStep = step;
+                });
+              },
+              onStepCancel: () {
+                currentStep > 0 ? setState(() => currentStep -= 1) : null;
+              },
+              onStepContinue: () {
+                currentStep < 2 ? setState(() => currentStep += 1) : null;
+              },
+            ),
           ],
         ),
-      )),
+      ),
     );
+  }
+
+  List<Step> getSteps() {
+    return [
+      Step(
+        title: Text('ДЕНЬ 1'),
+        subtitle: Text('11.01.2021'),
+        content: Column(
+          children: [
+            SizedBox(
+              width: 400,
+              child:
+                Text(
+                  'Переезд через перевал',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                )
+              ,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Divider(height: 1,),
+            ),
+            SizedBox(
+              width: 400,
+              child: Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
+            ),
+            SizedBox(
+              width: 500,
+              height: 200,
+              child: GridView.count(
+                scrollDirection: Axis.horizontal,
+                primary: false,
+                padding: const EdgeInsets.all(20),
+                mainAxisSpacing: 5,
+                crossAxisCount: 1,
+                children: <Widget>[
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      Step(
+        title: Text('ДЕНЬ 2'),
+        subtitle: Text('12.01.2021'),
+        content: Column(
+          children: [
+            SizedBox(
+              width: 400,
+              child:
+              Text(
+                'Переезд через перевал',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              )
+              ,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Divider(height: 1,),
+            ),
+            SizedBox(
+              width: 400,
+              child: Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
+            ),
+            SizedBox(
+              width: 500,
+              height: 200,
+              child: GridView.count(
+                scrollDirection: Axis.horizontal,
+                primary: false,
+                padding: const EdgeInsets.all(20),
+                mainAxisSpacing: 5,
+                crossAxisCount: 1,
+                children: <Widget>[
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+      Step(
+        title: Text('ДЕНЬ 3'),
+        subtitle: Text('13.01.2021'),
+        content: Column(
+          children: [
+            SizedBox(
+              width: 400,
+              child:
+              Text(
+                'Переезд через перевал',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              )
+              ,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Divider(height: 1,),
+            ),
+            SizedBox(
+              width: 400,
+              child: Text(
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
+            ),
+            SizedBox(
+              width: 500,
+              height: 200,
+              child: GridView.count(
+                scrollDirection: Axis.horizontal,
+                primary: false,
+                padding: const EdgeInsets.all(20),
+                mainAxisSpacing: 5,
+                crossAxisCount: 1,
+                children: <Widget>[
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                  Container(
+                    child: Image(
+                      image: AssetImage('assets/mountain.jpeg'),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    ];
   }
 }
