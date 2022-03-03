@@ -34,7 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         title: OutlinedButton.icon(
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushNamed('/create_travel'),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: Colors.white, width: 1),
               shape: const RoundedRectangleBorder(
