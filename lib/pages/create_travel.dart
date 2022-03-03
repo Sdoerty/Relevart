@@ -1,4 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+class ModelForm extends ChangeNotifier{
+  String travelName = "";
+  String travelDescription = "";
+  DateTime dateTravel = DateTime.now();
+
+  _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: dateTravel,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != dateTravel) {
+      dateTravel = picked;
+      notifyListeners();
+    }
+  }
+
+}
 
 class CreateTravel extends StatelessWidget {
   const CreateTravel({Key? key}) : super(key: key);
@@ -11,7 +32,10 @@ class CreateTravel extends StatelessWidget {
         backgroundColor: Colors.blueGrey,
       ),
       body: SafeArea(
-        child: TravelForm(),
+        child: ChangeNotifierProvider(
+            create: (context) => ModelForm(),
+            child: TravelForm(),
+        )
       ),
     );
   }
@@ -66,42 +90,26 @@ class DescriptionTravelFormWidget extends StatelessWidget {
   }
 }
 
-class DateTravelFormWidget extends StatefulWidget {
+class DateTravelFormWidget extends StatelessWidget {
   const DateTravelFormWidget({Key? key}) : super(key: key);
 
   @override
-  State<DateTravelFormWidget> createState() => _DateTravelFormWidgetState();
-}
-
-DateTime selectedDate = DateTime.now();
-
-_selectDate(BuildContext context) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: selectedDate,
-    firstDate: DateTime(2000),
-    lastDate: DateTime(2025),
-  );
-  if (picked != null && picked != selectedDate) {
-    selectedDate = picked;
-  }
-}
-
-class _DateTravelFormWidgetState extends State<DateTravelFormWidget> {
-  @override
   Widget build(BuildContext context) {
+    final date = context.select((ModelForm date) => date.dateTravel);
+    final modelSelectDate = context.read<ModelForm>();
     return Padding(
         padding: EdgeInsets.only(top: 15),
         child: Column(
           children: [
             Text(
-              "${selectedDate.toLocal()}".split(' ')[0],
+              "${date.toLocal()}".split(' ')[0],
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             OutlinedButton(
-                onPressed: () => _selectDate(context),
+                onPressed: () => modelSelectDate._selectDate(context),
                 child: Text('Выбрать дату', style: TextStyle(color: Colors.black54),)),
           ],
         ));
   }
 }
+
