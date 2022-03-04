@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:relevart/pages/profile.dart';
 import 'package:relevart/pages/travel_table.dart';
@@ -9,8 +10,17 @@ class BottomNavigation extends StatefulWidget {
   _BottomNavigationState createState() => _BottomNavigationState();
 }
 
+
 class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late User user;
+
+  initUser() async {
+    user = await _auth.currentUser!;
+    setState(() {});
+  }
+
   static const List<Widget> _widgetOptions = <Widget>[
     // Bottom navigation TravelTable
     TravelTable(),
@@ -34,7 +44,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         title: OutlinedButton.icon(
-            onPressed: () => Navigator.of(context).pushNamed('/create_travel'),
+            onPressed: () => Navigator.of(context).pushNamed('/bottom_navigation/create_travel'),
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: Colors.white, width: 1),
               shape: const RoundedRectangleBorder(

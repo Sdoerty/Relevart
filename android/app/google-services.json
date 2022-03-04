@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "734221583856",
+    "project_id": "relevart-c0b90",
+    "storage_bucket": "relevart-c0b90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734221583856:android:9ece0ffc1f1dd902f64935",
+        "android_client_info": {
+          "package_name": "com.relevart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734221583856-jka3afi1e6gdjd1b7hmee09fq14d73sk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOlhYT1o0QI2tsZBiVHCoK2QqjsQnpcww"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734221583856-jka3afi1e6gdjd1b7hmee09fq14d73sk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

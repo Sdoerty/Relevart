@@ -15,6 +15,7 @@ class _TravelTableState extends State<TravelTable>
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+
   }
 
   @override
@@ -57,7 +58,7 @@ class _TravelTableState extends State<TravelTable>
                                 children: [
                                   // Карточка путешествия
                                   GestureDetector(
-                                    onTap: () => Navigator.pushNamed(context, '/travel_page'),
+                                    onTap: () => Navigator.pushNamed(context, '/bottom_navigation/travel_page'),
                                     child: Container(
                                       margin: const EdgeInsets.all(8.0),
                                       child: Card(
