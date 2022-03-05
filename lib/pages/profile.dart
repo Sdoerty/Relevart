@@ -1,7 +1,29 @@
-import 'package:flutter/material.dart';
 
-class Profile extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  late User user;
+
+  @override
+  void initState() {
+    super.initState();
+    initUser();
+  }
+
+  initUser() async {
+    user = await _auth.currentUser!;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +59,7 @@ class Profile extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          'Роман Смирнов',
+                        Text("${user.email}",
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
