@@ -133,7 +133,7 @@ class _LoginState extends State<Login> {
     } else {
       return [
         Text(
-          "Welcome to Katka",
+          "Welcome to Relevart!",
           style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,

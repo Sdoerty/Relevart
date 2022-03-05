@@ -35,12 +35,19 @@ class Profile extends StatelessWidget {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Роман Смирнов',
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                    Row(
+                      children: [
+                        Text(
+                          'Роман Смирнов',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        IconButton(
+                            onPressed: () => Navigator.of(context).pushNamed('/profile/settings'),
+                            icon: Icon(Icons.edit, color: Colors.white,)),
+                      ],
                     ),
                     Text(
                       'Подписки: 3',
