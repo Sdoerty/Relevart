@@ -108,14 +108,14 @@ class _LoginState extends State<Login> {
         TextFormField(
           decoration: InputDecoration(labelText: 'Email'),
           validator: (value) =>
-          value!.isEmpty ? 'Поле Email не может быть пустым' : null,
+              value!.isEmpty ? 'Поле Email не может быть пустым' : null,
           onSaved: (value) => _email = value!,
         ),
         TextFormField(
           decoration: InputDecoration(labelText: 'Password'),
           obscureText: true,
           validator: (value) =>
-          value!.isEmpty ? 'Поле Password не может быть пустым' : null,
+              value!.isEmpty ? 'Поле Password не может быть пустым' : null,
           onSaved: (value) => _password = value!,
         ),
         Padding(padding: EdgeInsets.only(top: 45.0)),
@@ -150,14 +150,14 @@ class _LoginState extends State<Login> {
         TextFormField(
           decoration: InputDecoration(labelText: 'Email'),
           validator: (value) =>
-          value!.isEmpty ? 'Поле Email не может быть пустым' : null,
+              value!.isEmpty ? 'Поле Email не может быть пустым' : null,
           onSaved: (value) => _email = value!,
         ),
         TextFormField(
           decoration: InputDecoration(labelText: 'Password'),
           obscureText: true,
           validator: (value) =>
-          value!.isEmpty ? 'Поле Password не может быть пустым' : null,
+              value!.isEmpty ? 'Поле Password не может быть пустым' : null,
           onSaved: (value) => _password = value!,
         ),
         Padding(padding: EdgeInsets.only(top: 45.0)),

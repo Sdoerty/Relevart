@@ -11,7 +11,7 @@ class Settings extends StatefulWidget {
 class _SettingsState extends State<Settings> {
 
   Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut().then((value) => Navigator.pushNamed(context, '/')) ;
+    await FirebaseAuth.instance.signOut().then((value) => Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false));
   }
 
   @override
