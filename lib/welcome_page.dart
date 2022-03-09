@@ -15,18 +15,21 @@ class WelcomePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Relevart - Travel Book!'),
+              Text('Relevart - Travel Book!', style: TextStyle(fontSize: 24, color: Colors.blueGrey, fontWeight: FontWeight.bold),),
             ],
           ),
           SizedBox(
             height: 30,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               OutlinedButton(
-                  onPressed: () => Navigator.of(context).pushNamed('/welcome_page/sign_in'), 
-                  child: Text('Sign In'))
+                  onPressed: () => Navigator.of(context).pushNamed('/welcome_page/sign_in'),
+                  child: Text('Вход')),
+              OutlinedButton(
+                  onPressed: () {},
+                  child: Text('Регистрация'))
             ],
           )
         ],
