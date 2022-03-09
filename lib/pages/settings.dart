@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:relevart/services/firebase_service.dart';
 
 class Settings extends StatefulWidget {
   const Settings({Key? key}) : super(key: key);
@@ -9,9 +10,11 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  final signOut = FirebaseService();
 
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut().then((value) => Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false));
+  void out() async {
+    await signOut.signOutFromGoogle();
+    Navigator.pushNamedAndRemoveUntil(context, '/welcome_page', (route) => false);
   }
 
   @override
@@ -28,7 +31,7 @@ class _SettingsState extends State<Settings> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               OutlinedButton(
-                  onPressed: signOut,
+                  onPressed: out,
                   child: Text('Выйти'))
             ],
           ),

@@ -13,13 +13,7 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int _selectedIndex = 0;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  late User user;
-
-  initUser() async {
-    user = await _auth.currentUser!;
-    setState(() {});
-  }
+  User? user = FirebaseAuth.instance.currentUser;
 
   static const List<Widget> _widgetOptions = <Widget>[
     // Bottom navigation TravelTable

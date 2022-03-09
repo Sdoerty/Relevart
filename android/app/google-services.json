@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "734221583856-jbn67b19cunbflt6p09dhi34p63oevhh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.relevart",
+            "certificate_hash": "75df8e4353bcc3b6482e7e9d06578693a8d125f7"
+          }
+        },
+        {
           "client_id": "734221583856-jka3afi1e6gdjd1b7hmee09fq14d73sk.apps.googleusercontent.com",
           "client_type": 3
         }
