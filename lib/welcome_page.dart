@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatelessWidget {
@@ -8,32 +7,32 @@ class WelcomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-      padding: EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
+          padding: EdgeInsets.all(20),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Relevart - Travel Book!', style: TextStyle(fontSize: 24, color: Colors.blueGrey, fontWeight: FontWeight.bold),),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Relevart - Travel Book!', style: TextStyle(fontSize: 28, color: Colors.blueGrey, fontWeight: FontWeight.bold),),
+                ],
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  OutlinedButton(
+                      onPressed: () => Navigator.of(context).pushNamed('/welcome_page/sign_in'),
+                      child: Text('Вход')),
+                  OutlinedButton(
+                      onPressed: () {},
+                      child: Text('Регистрация'))
+                ],
+              )
             ],
           ),
-          SizedBox(
-            height: 30,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              OutlinedButton(
-                  onPressed: () => Navigator.of(context).pushNamed('/welcome_page/sign_in'),
-                  child: Text('Вход')),
-              OutlinedButton(
-                  onPressed: () {},
-                  child: Text('Регистрация'))
-            ],
-          )
-        ],
-      ),
-    ));
+        ));
   }
 }
