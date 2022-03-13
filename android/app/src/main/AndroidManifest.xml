@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.relevart.relevart">
-   <application
+    <application
         android:label="relevart"
         android:icon="@mipmap/ic_launcher">
         <activity
