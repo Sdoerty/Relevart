@@ -1,15 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ModelForm extends ChangeNotifier {
+  final _user = FirebaseAuth.instance.currentUser!.uid;
   CollectionReference travel = FirebaseFirestore.instance.collection('travel');
   String _title = "";
   String _description = "";
   DateTime _dateTravel = DateTime.now();
 
-  Future<void> create_travel() {
+  Future<void> create_travel({required String ownerUserId}) {
     return travel.add({
+      'owner': ownerUserId,
       'travel_title': _title,
       'travel_description': _description,
       'travel_date': _dateTravel,
@@ -139,7 +142,7 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () => {
-                      model.create_travel(),
+                      model.create_travel(ownerUserId: model._user),
                       Navigator.of(context).pop(),
                     },
                 child: Text('Создать'),

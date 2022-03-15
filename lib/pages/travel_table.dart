@@ -47,21 +47,42 @@ class _TravelTableState extends State<TravelTable>
                     children: <Widget>[
                       // Мои путешествия
                       SafeArea(
+                        child: Column(
+                          children: [
+                            const Divider(),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 0, top: 25, right: 0, bottom: 0)),
+                                Text('Завершенные путешествия',
+                                    style: TextStyle(fontSize: 18))
+                              ],
+                            ),
+                            const Divider(),
+                          ],
+                        ),
+                      ),
+                      // Незавершенные путешествия
+                      SafeArea(
                         // ListView позволяет включить скроллинг обектов внутри себя
                         child: StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection('travel')
-                              .snapshots(),
+                              .snapshots(includeMetadataChanges: true),
                           builder: (BuildContext context,
                               AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (!snapshot.hasData){
-                              return Center(
-                                  child: Text('Нет записей'));
-                            }else{
+                            if (!snapshot.hasData) {
+                              return Center(child: Text('Нет записей'));
+                            }if(snapshot.connectionState == ConnectionState.waiting){
+                              return Center(child: Text("Загрузка..."));
+                            } else {
                               return ListView.builder(
                                   padding: const EdgeInsets.all(8),
                                   itemCount: snapshot.data?.docs.length,
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     return SizedBox(
                                       height: 430,
                                       child: Dismissible(
@@ -73,24 +94,27 @@ class _TravelTableState extends State<TravelTable>
                                           child: Container(
                                             margin: const EdgeInsets.all(8.0),
                                             child: Card(
-                                              shape: const RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10.0))),
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                              Radius.circular(
+                                                                  10.0))),
                                               child: Column(
                                                 crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
+                                                    CrossAxisAlignment.stretch,
                                                 children: [
                                                   Stack(
                                                     children: [
                                                       const ClipRRect(
                                                           borderRadius:
-                                                          BorderRadius.only(
+                                                              BorderRadius.only(
                                                             topLeft:
-                                                            Radius.circular(
-                                                                10.0),
+                                                                Radius.circular(
+                                                                    10.0),
                                                             topRight:
-                                                            Radius.circular(
-                                                                10.0),
+                                                                Radius.circular(
+                                                                    10.0),
                                                           ),
                                                           child: Image(
                                                               image: AssetImage(
@@ -113,18 +137,20 @@ class _TravelTableState extends State<TravelTable>
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           fontWeight:
-                                                          FontWeight.bold),
+                                                              FontWeight.bold),
                                                     ),
                                                     subtitle: Text(snapshot
                                                         .data!.docs[index]
                                                         .get(
-                                                        'travel_description')),
+                                                            'travel_description')),
                                                   ),
-                                                  SizedBox(height: 15,),
+                                                  SizedBox(
+                                                    height: 15,
+                                                  ),
                                                   Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
+                                                        MainAxisAlignment
+                                                            .spaceAround,
                                                     children: [
                                                       Column(
                                                         children: [
@@ -136,8 +162,8 @@ class _TravelTableState extends State<TravelTable>
                                                         children: [
                                                           Row(
                                                             children: const [
-                                                              Icon(
-                                                                  Icons.thumb_up),
+                                                              Icon(Icons
+                                                                  .thumb_up),
                                                               Text('125')
                                                             ],
                                                           )
@@ -157,25 +183,6 @@ class _TravelTableState extends State<TravelTable>
                           },
                         ),
                         /*child: */
-                      ),
-                      // Незавершенные путешествия
-                      SafeArea(
-                        child: Column(
-                          children: [
-                            const Divider(),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 0, top: 25, right: 0, bottom: 0)),
-                                Text('Незавершенные путешествия',
-                                    style: TextStyle(fontSize: 18))
-                              ],
-                            ),
-                            const Divider(),
-                          ],
-                        ),
                       ),
                     ],
                   ),
