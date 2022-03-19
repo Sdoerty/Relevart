@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:relevart/pages/travel_view.dart';
+import 'package:relevart/services/cloud/cloud_travel.dart';
+import 'package:relevart/services/cloud/firebase_cloud_storage.dart';
 
 class TravelTable extends StatefulWidget {
   const TravelTable({Key? key}) : super(key: key);
@@ -12,10 +16,13 @@ class TravelTable extends StatefulWidget {
 class _TravelTableState extends State<TravelTable>
     with TickerProviderStateMixin {
   late TabController _tabController;
+  late final FirebaseCloudStorage _travelService;
+  final _userId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   void initState() {
     super.initState();
+    _travelService = FirebaseCloudStorage();
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -65,123 +72,24 @@ class _TravelTableState extends State<TravelTable>
                         ),
                       ),
                       // Незавершенные путешествия
-                      SafeArea(
-                        child: StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection('travel')
-                              .snapshots(includeMetadataChanges: true),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (!snapshot.hasData) {
-                              return Center(child: Text('Нет записей'));
-                            }if(snapshot.connectionState == ConnectionState.waiting){
-                              return Center(child: Text("Загрузка..."));
-                            } else {
-                              return ListView.builder(
-                                  padding: const EdgeInsets.all(8),
-                                  itemCount: snapshot.data?.docs.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return SizedBox(
-                                      height: 430,
-                                      child: Dismissible(
-                                        key: Key(snapshot.data!.docs[index].id),
-                                        child: GestureDetector(
-                                          onTap: () => Navigator.pushNamed(
-                                              context,
-                                              '/bottom_navigation/travel_page'),
-                                          child: Container(
-                                            margin: const EdgeInsets.all(8.0),
-                                            child: Card(
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10.0))),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.stretch,
-                                                children: [
-                                                  Stack(
-                                                    children: [
-                                                      const ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    10.0),
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    10.0),
-                                                          ),
-                                                          child: Image(
-                                                              image: AssetImage(
-                                                                  'assets/mountain.jpeg'))),
-                                                      Positioned(
-                                                          top: 7,
-                                                          right: 10,
-                                                          child: IconButton(
-                                                            onPressed: () {},
-                                                            icon: const Icon(
-                                                                Icons.share),
-                                                            color: Colors.white,
-                                                          ))
-                                                    ],
-                                                  ),
-                                                  ListTile(
-                                                    title: Text(
-                                                      snapshot.data!.docs[index]
-                                                          .get('travel_title'),
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                    subtitle: Text(snapshot
-                                                        .data!.docs[index]
-                                                        .get(
-                                                            'travel_description')),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 15,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      Column(
-                                                        children: [
-                                                          Text(
-                                                              '${snapshot.data!.docs[index].get('travel_date').toDate()}')
-                                                        ],
-                                                      ),
-                                                      Column(
-                                                        children: [
-                                                          Row(
-                                                            children: const [
-                                                              Icon(Icons
-                                                                  .thumb_up),
-                                                              Text('125')
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  });
-                            }
-                          },
-                        ),
-                        /*child: */
+                      StreamBuilder(
+                        stream: _travelService.allTravels(ownerUserId: _userId),
+                        builder: (context, snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                            case ConnectionState.active:
+                              if (snapshot.hasData) {
+                                final allTravels = snapshot.data as Iterable<CloudTravel>;
+                                return TravelView(
+                                  travels: allTravels,
+                                );
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            default:
+                              return const CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ],
                   ),

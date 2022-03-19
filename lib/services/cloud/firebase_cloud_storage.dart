@@ -5,7 +5,7 @@ import 'package:relevart/services/cloud/cloud_travel.dart';
 class FirebaseCloudStorage {
   final travel = FirebaseFirestore.instance.collection('travel');
 
-  Stream<Iterable<CloudTravel>> allNotes({required String ownerUserId}) {
+  Stream<Iterable<CloudTravel>> allTravels({required String ownerUserId}) {
     final allTravel = travel
         .where(ownerUserIdFieldName, isEqualTo: ownerUserId)
         .snapshots()
@@ -17,13 +17,13 @@ class FirebaseCloudStorage {
     required String ownerUserId,
     required String title,
     required String description,
-    required DateTime dateTravel,
+    //required DateTime dateTravel,
   }) async {
     final document = await travel.add({
       ownerUserIdFieldName: ownerUserId,
       titleFieldName: title,
       descriptionFieldName: description,
-      dateTravelFieldName: dateTravel,
+      //dateTravelFieldName: dateTravel,
     });
     final fetchedTravel = await document.get();
     return CloudTravel(
@@ -31,7 +31,7 @@ class FirebaseCloudStorage {
       ownerUserId: ownerUserId,
       title: '',
       description: '',
-      dateTravel: DateTime.now(),
+      //dateTravel: DateTime.now(),
     );
   }
 

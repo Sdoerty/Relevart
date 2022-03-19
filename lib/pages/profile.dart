@@ -56,9 +56,9 @@ class _ProfileState extends State<Profile> {
                           Row(
                             children: [
                               Text(
-                                "${user!.uid}",
+                                "${user!.displayName}",
                                 style: TextStyle(
-                                    fontSize: 8,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
