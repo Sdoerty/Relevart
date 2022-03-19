@@ -66,7 +66,6 @@ class _TravelTableState extends State<TravelTable>
                       ),
                       // Незавершенные путешествия
                       SafeArea(
-                        // ListView позволяет включить скроллинг обектов внутри себя
                         child: StreamBuilder(
                           stream: FirebaseFirestore.instance
                               .collection('travel')
