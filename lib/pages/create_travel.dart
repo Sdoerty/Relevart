@@ -14,10 +14,10 @@ class ModelForm extends ChangeNotifier {
       ownerUserId: '',
       title: '',
       description: '',
-      //dateTravel: DateTime.now()
+      dateTravel: DateTime.now()
 );
 
-/*  _selectDate(BuildContext context) async {
+  _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: await cloudTravel.dateTravel,
@@ -28,7 +28,7 @@ class ModelForm extends ChangeNotifier {
       cloudTravel.dateTravel = picked;
       notifyListeners();
     }
-  }*/
+  }
 }
 
 class CreateTravel extends StatelessWidget {
@@ -76,7 +76,7 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
   @override
   Widget build(BuildContext context) {
     final model = context.read<ModelForm>();
-    // final date = context.select((ModelForm date) => date.cloudTravel.dateTravel);
+    final date = context.select((ModelForm date) => date.cloudTravel.dateTravel);
     final modelSelectDate = context.read<ModelForm>();
 
     return Padding(
@@ -118,7 +118,7 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
             height: 1,
           ),
           SizedBox(height: 15),
-/*          Text(
+          Text(
             "${date.toLocal()}".split(' ')[0],
             style: TextStyle(
                 fontSize: 24,
@@ -130,7 +130,7 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
               child: Text(
                 'Выбрать дату путешествия',
                 style: TextStyle(color: Colors.black54),
-              )),*/
+              )),
           SizedBox(height: 15),
           Divider(
             height: 1,
@@ -143,7 +143,8 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
                       model.firebaseCloudStorage.createNewTravel(
                           ownerUserId: model._userId,
                           title: model.cloudTravel.title,
-                          description: model.cloudTravel.description,),
+                          description: model.cloudTravel.description,
+                          dateTravel: date),
                       Navigator.of(context).pop(),
                     },
                 child: Text('Создать'),

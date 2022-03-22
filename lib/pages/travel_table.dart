@@ -84,10 +84,14 @@ class _TravelTableState extends State<TravelTable>
                                   travels: allTravels,
                                 );
                               } else {
-                                return const CircularProgressIndicator();
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
                               }
                             default:
-                              return const CircularProgressIndicator();
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
                           }
                         },
                       ),

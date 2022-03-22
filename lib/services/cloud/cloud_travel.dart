@@ -8,21 +8,21 @@ class CloudTravel{
   String ownerUserId;
   String title;
   String description;
-  //DateTime dateTravel = DateTime.now();
+  DateTime dateTravel;
 
   CloudTravel({
     required this.travelId,
     required this.ownerUserId,
     required this.title,
     required this.description,
-    //required this.dateTravel,
+    required this.dateTravel,
 });
 
   CloudTravel.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot):
         travelId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
         title = snapshot.data()[titleFieldName] as String,
-        description = snapshot.data()[descriptionFieldName] as String;
-        //dateTravel = snapshot.data()[dateTravelFieldName] as DateTime;
+        description = snapshot.data()[descriptionFieldName] as String,
+        dateTravel = snapshot.data()[dateTravelFieldName].toDate();
 
 }
