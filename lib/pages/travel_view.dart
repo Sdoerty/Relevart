@@ -18,7 +18,9 @@ class TravelView extends StatelessWidget {
             height: 450,
             child: GestureDetector(
               onTap: () => Navigator.pushNamed(
-                  context, '/bottom_navigation/travel_page'),
+                  context, '/bottom_navigation/travel_page', arguments: {
+                    'id': travel.travelId
+              }),
               child: Container(
                 margin: const EdgeInsets.all(8.0),
                 child: Card(

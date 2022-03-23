@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:relevart/services/cloud/cloud_travel.dart';
 
 class TravelPage extends StatefulWidget {
   const TravelPage({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _TravelPageState extends State<TravelPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text("Финляндия - Норвегия - Швеция - Эстония",
+                    child: Text("Зимнее путешествие в Финляндию, Норвегию, Швецию и Эстонию",
                         style: TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.bold,
@@ -51,7 +52,7 @@ class _TravelPageState extends State<TravelPage> {
                 children: [
                   Flexible(
                     child: Text(
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        "Начать нужно с составления маршрута. Определиться, каким составом мы поедете, какие у вас интересы – природа, рыбалка, каякинг, музеи – в Норвегии есть все, главное – решить, что же подходит именно вам. Наш первоначальный маршрут немного изменился в ходе поездки, но вы можете его взять за основу вашего самостоятельного путешествия.",
                         style: TextStyle(fontSize: 16, color: Colors.black54)),
                   ),
                 ],
@@ -60,17 +61,15 @@ class _TravelPageState extends State<TravelPage> {
             Padding(
               padding: EdgeInsets.only(left: 15, top: 15, right: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Flexible(
-                    child: Text("11.01.2021 - 18.01.2021",
-                        style: TextStyle(fontSize: 16, color: Colors.black54)),
-                  ),
+                  Text("11.01.2021",
+                  style: TextStyle(fontSize: 16, color: Colors.black54)),
                 ],
               ),
             ),
             Divider(),
-            Stepper(
+            /*Stepper(
               physics: NeverScrollableScrollPhysics(),
               steps: getSteps(),
               controlsBuilder: (BuildContext context, ControlsDetails details) {
@@ -100,14 +99,14 @@ class _TravelPageState extends State<TravelPage> {
               onStepContinue: () {
                 currentStep < 2 ? setState(() => currentStep += 1) : null;
               },
-            ),
+            ),*/
           ],
         ),
       ),
     );
   }
 
-  List<Step> getSteps() {
+/*List<Step> getSteps() {
     return [
       Step(
         title: Text('ДЕНЬ 1'),
@@ -302,5 +301,17 @@ class _TravelPageState extends State<TravelPage> {
         ),
       ),
     ];
+  }*/
+}
+
+class TravelPageView extends StatelessWidget {
+  const TravelPageView({Key? key, required this.travels}) : super(key: key);
+  final Iterable<CloudTravel> travels;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
+
