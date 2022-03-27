@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 import 'package:relevart/services/cloud/firebase_cloud_storage.dart';
@@ -9,13 +12,13 @@ import 'package:relevart/services/cloud/firebase_cloud_storage.dart';
 class ModelForm extends ChangeNotifier {
   final _userId = FirebaseAuth.instance.currentUser!.uid;
   final firebaseCloudStorage = FirebaseCloudStorage();
+  File? imageFile;
   final cloudTravel = CloudTravel(
       travelId: '',
       ownerUserId: '',
       title: '',
       description: '',
-      dateTravel: DateTime.now()
-);
+      dateTravel: DateTime.now());
 
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -28,6 +31,17 @@ class ModelForm extends ChangeNotifier {
       cloudTravel.dateTravel = picked;
       notifyListeners();
     }
+  }
+
+  _getFromGallery() async {
+    XFile? pickedFile = await ImagePicker().pickImage(
+      source: ImageSource.gallery,
+      maxHeight: 200,
+    );
+    if (pickedFile != null) {
+      imageFile = File(pickedFile.path);
+    }
+    notifyListeners();
   }
 }
 
@@ -76,14 +90,51 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
   @override
   Widget build(BuildContext context) {
     final model = context.read<ModelForm>();
-    final date = context.select((ModelForm date) => date.cloudTravel.dateTravel);
+    final date =
+        context.select((ModelForm date) => date.cloudTravel.dateTravel);
     final modelSelectDate = context.read<ModelForm>();
+    final image = context.select((ModelForm image) => image.imageFile);
+    final modelImage = context.watch<ModelForm>();
 
     return Padding(
       padding: EdgeInsets.only(left: 15, top: 20, right: 15, bottom: 0),
       child: Column(
         children: [
-          SizedBox(height: 10),
+          SizedBox(
+              child: Column(
+            children: [
+              image != null
+                  ? Container(
+                      child: Image.file(
+                        image,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Container(
+                      margin: EdgeInsets.symmetric(horizontal: 50),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey)
+                      ),
+                      height: 200,
+                      child: Center(child: Text('Нет обложки'))),
+              Container(
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    OutlinedButton(
+                      onPressed: () {
+                        modelImage._getFromGallery();
+                      },
+                      child: Text("Выбрать обложку из галереи",
+                          style: TextStyle(color: Colors.black54)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          )),
+          SizedBox(height: 30),
           TextField(
             onChanged: (String value) {
               model.cloudTravel.title = value;
@@ -135,25 +186,27 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
           Divider(
             height: 1,
           ),
-          SizedBox(height: 50),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-                onPressed: () => {
-                      model.firebaseCloudStorage.createNewTravel(
-                          ownerUserId: model._userId,
-                          title: model.cloudTravel.title,
-                          description: model.cloudTravel.description,
-                          dateTravel: date),
-                      Navigator.of(context).pop(),
-                    },
-                child: Text('Создать'),
-                style: ElevatedButton.styleFrom(
-                    primary: Colors.blueGrey,
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                    textStyle:
-                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
-          )
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                  onPressed: () => {
+                        model.firebaseCloudStorage.createNewTravel(
+                            ownerUserId: model._userId,
+                            title: model.cloudTravel.title,
+                            description: model.cloudTravel.description,
+                            dateTravel: date),
+                        Navigator.of(context).pop(),
+                      },
+                  child: Text('Создать'),
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.blueGrey,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      textStyle: TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold))),
+            ),
+          ),
         ],
       ),
     );
