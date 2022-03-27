@@ -30,9 +30,16 @@ class _SettingsState extends State<Settings> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              OutlinedButton(
-                  onPressed: out,
-                  child: Text('Выйти'))
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                    onPressed: out,
+                    child: Text('Выйти'),
+                    style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        textStyle:
+                        TextStyle(fontSize: 20))),
+              )
             ],
           ),
         ),

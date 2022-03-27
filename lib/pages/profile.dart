@@ -76,24 +76,29 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
-                Divider(height: 1, color: Colors.white,),
+                Divider(
+                  height: 1,
+                  color: Colors.white,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        'Подписки: 3',
+                        'Подписки: 0',
                         style: TextStyle(fontSize: 18, color: Colors.white),
                       ),
                       Text(
-                        'Подписчики: 10',
+                        'Подписчики: 0',
                         style: TextStyle(fontSize: 18, color: Colors.white),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
@@ -103,7 +108,7 @@ class _ProfileState extends State<Profile> {
               children: [
                 Padding(
                   padding:
-                  const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -113,8 +118,14 @@ class _ProfileState extends State<Profile> {
                       ),
                       OutlinedButton.icon(
                         onPressed: () {},
-                        icon: Icon(Icons.supervised_user_circle, color: Colors.blueGrey,),
-                        label: Text('Подписаться', style: TextStyle(color: Colors.blueGrey),),
+                        icon: Icon(
+                          Icons.supervised_user_circle,
+                          color: Colors.blueGrey,
+                        ),
+                        label: Text(
+                          'Подписаться',
+                          style: TextStyle(color: Colors.blueGrey),
+                        ),
                       )
                     ],
                   ),
@@ -142,11 +153,13 @@ class _ProfileState extends State<Profile> {
                                   'Мои путешествия',
                                   style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold, color: Colors.blueGrey),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueGrey),
                                 ),
                                 Text(
                                   '5 завершено',
-                                  style: TextStyle(fontSize: 16, color: Colors.blueGrey),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.blueGrey),
                                 )
                               ],
                             ),
@@ -175,11 +188,13 @@ class _ProfileState extends State<Profile> {
                                   'В процессе',
                                   style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold, color: Colors.blueGrey),
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.blueGrey),
                                 ),
                                 Text(
                                   '1 ожидают завершения',
-                                  style: TextStyle(fontSize: 16, color: Colors.blueGrey),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.blueGrey),
                                 )
                               ],
                             ),
@@ -188,10 +203,39 @@ class _ProfileState extends State<Profile> {
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),
+          SizedBox(height: 10,),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+            child: Row(
+              children: [
+                Text(
+                  'Фото:',
+                  style: TextStyle(fontSize: 18, color: Colors.blueGrey),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 200,
+            child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                ),
+                itemCount: 10,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    color: Colors.white54,
+                    child: Center(
+                        child: Image(
+                          image: AssetImage('assets/mountain.jpeg'),
+                        ),),
+                  );
+                }),
+          )
         ],
       ),
     );

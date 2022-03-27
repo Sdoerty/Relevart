@@ -63,7 +63,7 @@ class _TravelTableState extends State<TravelTable>
                                 Padding(
                                     padding: EdgeInsets.only(
                                         left: 0, top: 25, right: 0, bottom: 0)),
-                                Text('Завершенные путешествия',
+                                Text('Нет данных',
                                     style: TextStyle(fontSize: 18))
                               ],
                             ),
