@@ -17,8 +17,15 @@ void main() async {
       '/welcome_page/sign_in': (context) => SignIn(),
       '/bottom_navigation': (context) => BottomNavigation(),
       '/bottom_navigation/create_travel': (context) => CreateTravel(),
-      '/bottom_navigation/travel_page': (context) => TravelPage(),
       '/profile/settings': (context) => Settings(),
+      '/bottom_navigation/travel_page': (context) {
+        final id = ModalRoute.of(context)?.settings.arguments;
+        if (id is int){
+          return TravelPage(thisTravelId: id,);
+        }else{
+          return TravelPage(thisTravelId: 0,);
+        }
+      },
     },
   ));
 }

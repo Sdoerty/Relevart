@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 
 class TravelPage extends StatefulWidget {
-  const TravelPage({Key? key}) : super(key: key);
+  const TravelPage({Key? key, required this.thisTravelId}) : super(key: key);
+  final int thisTravelId;
 
   @override
   _TravelPageState createState() => _TravelPageState();
@@ -14,6 +15,7 @@ class _TravelPageState extends State<TravelPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(actions: [
         IconButton(
