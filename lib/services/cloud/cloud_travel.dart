@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 import 'package:relevart/services/cloud/cloud_storage_constants.dart';
 
 @immutable
@@ -17,6 +18,8 @@ class CloudTravel{
     required this.description,
     required this.dateTravel,
 });
+  final _dateFormat = DateFormat.yMMMd();
+  String stringFromDate(DateTime date) => _dateFormat.format(date);
 
   CloudTravel.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot):
         travelId = snapshot.id,

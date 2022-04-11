@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 
@@ -10,7 +9,7 @@ class TravelView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(6),
         itemCount: travels.length,
         itemBuilder: (BuildContext context, int index) {
           final travel = travels.elementAt(index);
@@ -22,7 +21,7 @@ class TravelView extends StatelessWidget {
                     'id': travel.travelId
               }),
               child: Container(
-                margin: const EdgeInsets.all(8.0),
+                margin: const EdgeInsets.all(6),
                 child: Card(
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0))),
@@ -72,7 +71,8 @@ class TravelView extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 17),
                         child: Row(
                           children: [
-                            Text("${travel.dateTravel}")
+                            //Text("${travel.dateTravel}")
+                            Text(travel.stringFromDate(travel.dateTravel))
                           ],
                         ),
                       ),
