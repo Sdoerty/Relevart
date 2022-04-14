@@ -77,6 +77,7 @@ class _TravelTableState extends State<TravelTable>
                         builder: (context, snapshot) {
                           switch (snapshot.connectionState) {
                             case ConnectionState.waiting:
+                              return Center(child: CircularProgressIndicator());
                             case ConnectionState.active:
                               if (snapshot.hasData) {
                                 final allTravels = snapshot.data as Iterable<CloudTravel>;
@@ -85,7 +86,7 @@ class _TravelTableState extends State<TravelTable>
                                 );
                               } else {
                                 return Center(
-                                  child: CircularProgressIndicator(),
+                                  child: Text("Нет данных"),
                                 );
                               }
                             default:

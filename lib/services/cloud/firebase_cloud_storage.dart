@@ -13,11 +13,11 @@ class FirebaseCloudStorage {
     return allTravel;
   }
 
-  Stream<Iterable<CloudTravel>> detailTravel({required String travelId}){
+/*  Stream<Iterable<CloudTravel>> detailTravel({required String travelId}){
     final detailTrvl = travel.where(travelIdFieldName, isEqualTo: travelId).snapshots()
         .map((event) => event.docs.map((doc) => CloudTravel.fromSnapshot(doc)));
     return detailTrvl;
-  }
+  }*/
 
   Future<CloudTravel> createNewTravel({
     required String ownerUserId,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relevart/pages/travel_page.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 
 class TravelView extends StatelessWidget {
@@ -16,10 +17,7 @@ class TravelView extends StatelessWidget {
           return SizedBox(
             height: 450,
             child: GestureDetector(
-              onTap: () => Navigator.pushNamed(
-                  context, '/bottom_navigation/travel_page', arguments: {
-                    'id': travel.travelId
-              }),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => TravelPage(travelById: travel))),
               child: Container(
                 margin: const EdgeInsets.all(6),
                 child: Card(

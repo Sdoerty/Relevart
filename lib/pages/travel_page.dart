@@ -1,16 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 
-class TravelPage extends StatefulWidget {
-  const TravelPage({Key? key, required this.thisTravelId}) : super(key: key);
-  final int thisTravelId;
-
-  @override
-  _TravelPageState createState() => _TravelPageState();
-}
-
-class _TravelPageState extends State<TravelPage> {
+class TravelPage extends StatelessWidget {
+  TravelPage({Key? key, required this.travelById}) : super(key: key);
+  // final Iterable<CloudTravel> travels;
+  final CloudTravel travelById;
   int currentStep = 0;
 
   @override
@@ -38,7 +32,7 @@ class _TravelPageState extends State<TravelPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text("Зимнее путешествие в Финляндию, Норвегию, Швецию и Эстонию",
+                    child: Text("${travelById.title}",
                         style: TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.bold,
@@ -53,8 +47,7 @@ class _TravelPageState extends State<TravelPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text(
-                        "Начать нужно с составления маршрута. Определиться, каким составом мы поедете, какие у вас интересы – природа, рыбалка, каякинг, музеи – в Норвегии есть все, главное – решить, что же подходит именно вам. Наш первоначальный маршрут немного изменился в ходе поездки, но вы можете его взять за основу вашего самостоятельного путешествия.",
+                    child: Text("${travelById.description}",
                         style: TextStyle(fontSize: 16, color: Colors.black54)),
                   ),
                 ],
@@ -65,8 +58,8 @@ class _TravelPageState extends State<TravelPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("11.01.2021",
-                  style: TextStyle(fontSize: 16, color: Colors.black54)),
+                  Text("${travelById.stringFromDate(travelById.dateTravel)}",
+                      style: TextStyle(fontSize: 16, color: Colors.black54)),
                 ],
               ),
             ),
@@ -316,4 +309,6 @@ class TravelPageView extends StatelessWidget {
     return Container();
   }
 }
+
+
 
