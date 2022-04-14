@@ -56,10 +56,13 @@ class TravelView extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        subtitle: Text(
-                          travel.description,
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
+                        subtitle: Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            travel.description,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -70,7 +73,7 @@ class TravelView extends StatelessWidget {
                         child: Row(
                           children: [
                             //Text("${travel.dateTravel}")
-                            Text(travel.stringFromDate(travel.dateTravel))
+                            Text("создано: ${travel.stringFromDate(travel.dateTravel)}")
                           ],
                         ),
                       ),

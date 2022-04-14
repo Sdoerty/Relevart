@@ -54,16 +54,66 @@ class TravelPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 15, top: 15, right: 15),
+              padding: EdgeInsets.only(top: 15),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("${travelById.stringFromDate(travelById.dateTravel)}",
+                  Text("создано: ${travelById.stringFromDate(travelById.dateTravel)}",
                       style: TextStyle(fontSize: 16, color: Colors.black54)),
                 ],
               ),
             ),
             Divider(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                        onPressed: (){},
+                        child: Text('Добавить новый день'),
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            textStyle:
+                            TextStyle(fontSize: 16))),
+                  ),
+                  SizedBox(height: 5),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                        onPressed: (){},
+                        child: Column(
+                          children: [
+                            Text('Завершить путешествие', style: TextStyle(color: Colors.red),),
+                            Text('(будет нельзя редактировать/добалять)', style: TextStyle(fontSize: 13, color: Colors.grey),),
+                          ],
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            textStyle:
+                            TextStyle(fontSize: 16))),
+                  ),
+                ],
+              ),
+            )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             /*Stepper(
               physics: NeverScrollableScrollPhysics(),
               steps: getSteps(),

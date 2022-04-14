@@ -38,7 +38,7 @@ class _SettingsState extends State<Settings> {
                     style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.symmetric(vertical: 10),
                         textStyle:
-                        TextStyle(fontSize: 20))),
+                        TextStyle(fontSize: 16))),
               )
             ],
           ),
