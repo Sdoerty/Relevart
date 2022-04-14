@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:relevart/pages/travel_page.dart';
+import 'package:relevart/pages/travel/travel_page.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 
 class TravelView extends StatelessWidget {

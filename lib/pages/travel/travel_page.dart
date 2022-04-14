@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relevart/pages/travel/add_new_travelday.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 
 class TravelPage extends StatelessWidget {
@@ -54,7 +55,7 @@ class TravelPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 15),
+              padding: EdgeInsets.only(top: 15, bottom: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -64,6 +65,8 @@ class TravelPage extends StatelessWidget {
               ),
             ),
             Divider(),
+            Text('нет записей'),
+            Divider(),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -71,8 +74,8 @@ class TravelPage extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                        onPressed: (){},
-                        child: Text('Добавить новый день'),
+                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday())),
+                        child: Text('Добавить запись'),
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             textStyle:
@@ -82,7 +85,29 @@ class TravelPage extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                        onPressed: (){},
+                        onPressed: () => showDialog<void>(
+                          context: context,
+                          barrierDismissible: false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Завершить путешествие?'),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('Завершить'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                TextButton(
+                                  child: const Text('Отмена'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
                         child: Column(
                           children: [
                             Text('Завершить путешествие', style: TextStyle(color: Colors.red),),

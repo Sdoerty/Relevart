@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:relevart/pages/travel_view.dart';
+import 'package:relevart/pages/travel/travel_view.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 import 'package:relevart/services/cloud/firebase_cloud_storage.dart';
 
