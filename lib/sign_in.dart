@@ -9,8 +9,15 @@ class SignIn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-          child: GoogleSignIn()),
+      body: Container(
+        decoration: new BoxDecoration(
+          gradient: new LinearGradient(
+              colors: [Colors.white, Colors.cyan],
+              begin: Alignment.centerLeft,
+              end: new Alignment(-1.0, -1.0)),
+        ),
+        child: Center(child: GoogleSignIn()),
+      ),
     );
   }
 }
@@ -27,30 +34,32 @@ class _GoogleSignInState extends State<GoogleSignIn> {
 
   @override
   Widget build(BuildContext context) {
-
-    return !isLoading? OutlinedButton.icon(
-      onPressed: () async{
-        setState(() {
-          isLoading = true;
-        });
-        FirebaseService service = new FirebaseService();
-        try{
-          await service.signInWithGoogle();
-          Navigator.pushNamedAndRemoveUntil(context, '/bottom_navigation', (route) => false);
-        }catch(e){
-          if(e is FirebaseAuthException){
-            showMessage(e.message!);
-          }
-        }
-        setState(() {
-          isLoading = false;
-        });
-      },
-      icon: FaIcon(FontAwesomeIcons.google),
-      label: Text("Войти через Google"),)
+    return !isLoading
+        ? OutlinedButton.icon(
+            onPressed: () async {
+              setState(() {
+                isLoading = true;
+              });
+              FirebaseService service = new FirebaseService();
+              try {
+                await service.signInWithGoogle();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/bottom_navigation', (route) => false);
+              } catch (e) {
+                if (e is FirebaseAuthException) {
+                  showMessage(e.message!);
+                }
+              }
+              setState(() {
+                isLoading = false;
+              });
+            },
+            icon: FaIcon(FontAwesomeIcons.google),
+            label: Text("Войти через Google"),
+          )
         : CircularProgressIndicator();
-
   }
+
   // Сообщение об ошибке входа Google sign in
   void showMessage(String message) {
     showDialog(
