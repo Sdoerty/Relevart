@@ -4,7 +4,6 @@ import 'package:relevart/services/cloud/cloud_travel.dart';
 
 class TravelPage extends StatelessWidget {
   TravelPage({Key? key, required this.travelById}) : super(key: key);
-  // final Iterable<CloudTravel> travels;
   final CloudTravel travelById;
   int currentStep = 0;
 
@@ -64,9 +63,13 @@ class TravelPage extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(),
+            Divider(
+              thickness: 2,
+            ),
             Text('нет записей'),
-            Divider(),
+            Divider(
+              thickness: 2,
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

@@ -24,12 +24,12 @@ class WelcomePage extends StatelessWidget {
                 'Relevart',
                 style: TextStyle(
                     fontSize: 64,
-                    color: Colors.blueGrey,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
               Text(
                 'My travel book!',
-                style: TextStyle(fontSize: 26, color: Colors.blueGrey),
+                style: TextStyle(fontSize: 26, color: Colors.white),
               ),
             ],
           ),

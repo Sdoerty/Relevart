@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 import 'package:relevart/services/cloud/firebase_cloud_storage.dart';
+import 'package:relevart/style/create_travel_fields.dart';
 
 class ModelForm extends ChangeNotifier {
   final _userId = FirebaseAuth.instance.currentUser!.uid;
@@ -119,66 +121,87 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    OutlinedButton(
+                    OutlinedButton.icon(
                       onPressed: () {
                         modelImage._getFromGallery();
                       },
-                      child: Text("Выбрать обложку из галереи",
-                          style: TextStyle(color: Colors.black54)),
+                      icon: Icon(
+                        Icons.photo_album,
+                        color: Colors.blueGrey,
+                      ),
+                      label: Text(
+                        'Выбрать обложку из галереи',
+                        style: TextStyle(color: Colors.blueGrey),
+                      ),
                     ),
                   ],
                 ),
               ),
             ],
           )),
-          SizedBox(height: 30),
-          TextField(
-            onChanged: (String value) {
-              model.cloudTravel.title = value;
-            },
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
+          SizedBox(height: 15),
+          Container(
+            decoration: selfFieldDecoration(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextField(
+                onChanged: (String value) {
+                  model.cloudTravel.title = value;
+                },
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelAlignment: FloatingLabelAlignment.center,
+                    hintText:
+                    'название путешествия...'),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          Container(
+            decoration: selfFieldDecoration(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: TextField(
+                onChanged: (String value) {
+                  model.cloudTravel.description = value;
+                },
+                keyboardType: TextInputType.multiline,
+                minLines: 5,
+                maxLines: 5,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelAlignment: FloatingLabelAlignment.center,
+                    hintText:
+                    'общее описание, ожидания...'),
+              ),
+            ),
+          ),
+          SizedBox(height: 15),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            decoration: selfFieldDecoration(),
+            child: Column(
+              children: [
+                Center(
+                  child: Text(
+                    "${DateFormat.yMMMd().format(date.toLocal())}",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey),
+                  ),
                 ),
-                labelText: "Название путешествия",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                floatingLabelAlignment: FloatingLabelAlignment.center,
-                hintText: 'напишите маршрут или город'),
+                OutlinedButton(
+                    onPressed: () => modelSelectDate._selectDate(context),
+                    child: Text(
+                      'Выбрать дату путешествия',
+                      style: TextStyle(color: Colors.black54),
+                    )),
+              ],
+            ),
           ),
-          SizedBox(height: 15),
-          TextField(
-            onChanged: (String value) {
-              model.cloudTravel.description = value;
-            },
-            keyboardType: TextInputType.multiline,
-            minLines: 5,
-            maxLines: 5,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30))),
-                labelText: "Описание путешествия",
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                floatingLabelAlignment: FloatingLabelAlignment.center,
-                hintText: 'общее описание, ожидания...'),
-          ),
-          SizedBox(height: 15),
-          Divider(
-            height: 1,
-          ),
-          SizedBox(height: 15),
-          Text(
-            "${date.toLocal()}".split(' ')[0],
-            style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blueGrey),
-          ),
-          OutlinedButton(
-              onPressed: () => modelSelectDate._selectDate(context),
-              child: Text(
-                'Выбрать дату путешествия',
-                style: TextStyle(color: Colors.black54),
-              )),
           SizedBox(height: 15),
           Divider(
             height: 1,

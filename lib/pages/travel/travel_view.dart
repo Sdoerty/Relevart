@@ -72,7 +72,6 @@ class TravelView extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 17),
                         child: Row(
                           children: [
-                            //Text("${travel.dateTravel}")
                             Text("создано: ${travel.stringFromDate(travel.dateTravel)}")
                           ],
                         ),
