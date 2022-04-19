@@ -13,23 +13,19 @@ class FirebaseCloudStorage {
     return allTravel;
   }
 
-/*  Stream<Iterable<CloudTravel>> detailTravel({required String travelId}){
-    final detailTrvl = travel.where(travelIdFieldName, isEqualTo: travelId).snapshots()
-        .map((event) => event.docs.map((doc) => CloudTravel.fromSnapshot(doc)));
-    return detailTrvl;
-  }*/
-
   Future<CloudTravel> createNewTravel({
     required String ownerUserId,
     required String title,
     required String description,
     required DateTime dateTravel,
+    required bool completed,
   }) async {
     final document = await travel.add({
       ownerUserIdFieldName: ownerUserId,
       titleFieldName: title,
       descriptionFieldName: description,
       dateTravelFieldName: dateTravel,
+      completedFieldName: completed
     });
     final fetchedTravel = await document.get();
     return CloudTravel(
@@ -38,6 +34,7 @@ class FirebaseCloudStorage {
       title: '',
       description: '',
       dateTravel: DateTime.now(),
+      completed: false,
     );
   }
 

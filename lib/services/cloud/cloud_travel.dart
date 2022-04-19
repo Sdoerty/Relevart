@@ -10,6 +10,8 @@ class CloudTravel{
   String title;
   String description;
   DateTime dateTravel;
+  bool completed;
+  // Map<String, dynamic> travelday;
 
   CloudTravel({
     required this.travelId,
@@ -17,6 +19,7 @@ class CloudTravel{
     required this.title,
     required this.description,
     required this.dateTravel,
+    required this.completed,
 });
   final _dateFormat = DateFormat.yMMMd();
   String stringFromDate(DateTime date) => _dateFormat.format(date);
@@ -26,6 +29,7 @@ class CloudTravel{
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
         title = snapshot.data()[titleFieldName] as String,
         description = snapshot.data()[descriptionFieldName] as String,
-        dateTravel = snapshot.data()[dateTravelFieldName].toDate();
+        dateTravel = snapshot.data()[dateTravelFieldName].toDate(),
+        completed = snapshot.data()[completedFieldName] as bool;
 
 }

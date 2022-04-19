@@ -17,7 +17,8 @@ class ModelForm extends ChangeNotifier {
       ownerUserId: '',
       title: '',
       description: '',
-      dateTravel: DateTime.now());
+      dateTravel: DateTime.now(),
+      completed: false);
 
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -111,9 +112,8 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
                     )
                   : Container(
                       margin: EdgeInsets.symmetric(horizontal: 50),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey)
-                      ),
+                      decoration:
+                          BoxDecoration(border: Border.all(color: Colors.grey)),
                       height: 200,
                       child: Center(child: Text('Нет обложки'))),
               Container(
@@ -152,8 +152,7 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
                     border: InputBorder.none,
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     floatingLabelAlignment: FloatingLabelAlignment.center,
-                    hintText:
-                    'название путешествия...'),
+                    hintText: 'название путешествия...'),
               ),
             ),
           ),
@@ -173,8 +172,7 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
                     border: InputBorder.none,
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                     floatingLabelAlignment: FloatingLabelAlignment.center,
-                    hintText:
-                    'общее описание, ожидания...'),
+                    hintText: 'общее описание, ожидания...'),
               ),
             ),
           ),
@@ -216,7 +214,8 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
                             ownerUserId: model._userId,
                             title: model.cloudTravel.title,
                             description: model.cloudTravel.description,
-                            dateTravel: date),
+                            dateTravel: date,
+                            completed: model.cloudTravel.completed),
                         Navigator.of(context).pop(),
                       },
                   child: Text('Создать'),
