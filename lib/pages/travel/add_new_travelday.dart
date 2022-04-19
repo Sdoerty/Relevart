@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:relevart/style/create_travel_fields.dart';
 
-class AddNewTravelday extends StatelessWidget {
+class AddNewTravelday extends StatefulWidget {
   const AddNewTravelday({Key? key}) : super(key: key);
+
+  @override
+  State<AddNewTravelday> createState() => _AddNewTraveldayState();
+}
+
+class _AddNewTraveldayState extends State<AddNewTravelday> {
+  late GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(55.741556, 37.620027);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +109,72 @@ class AddNewTravelday extends StatelessWidget {
                 ),
                 SizedBox(height: 15),
                 Container(
-                  height: 250,
-                    decoration: selfFieldDecoration(),
-                    child: Center(child: Text('отметки на карте'))),
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  decoration: selfFieldDecoration(),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Latitude, Longitude?",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueGrey),
+                      ),
+                      SizedBox(height: 10),
+                      Center(
+                        child: OutlinedButton.icon(
+                          onPressed: () => showDialog<void>(
+                            context: context,
+                            barrierDismissible: false, // user must tap button!
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                insetPadding: EdgeInsets.symmetric(horizontal: 16),
+                                title: Text('Можно указать метки или нарисовать маршрут'),
+                                content: Container(
+                                  height: 500,
+                                  width: 500,
+                                  child: GoogleMap(
+                                    onMapCreated: _onMapCreated,
+                                    initialCameraPosition: CameraPosition(
+                                      target: _center,
+                                      zoom: 15.0,
+                                    ),
+                                  ),
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    child: Text('Принять'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('Отмена'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            padding:
+                                EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                          ),
+                          icon: Icon(
+                            Icons.map,
+                            color: Colors.blueGrey,
+                          ),
+                          label: Text(
+                            'Указать метки на карте',
+                            style: TextStyle(color: Colors.blueGrey, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 SizedBox(height: 15),
                 Divider(
                   height: 1,

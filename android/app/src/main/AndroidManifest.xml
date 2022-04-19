@@ -2,8 +2,11 @@
     package="com.relevart.relevart">
     <application
         android:requestLegacyExternalStorage="true"
-        android:label="relevart"
+        android:label="Relevart"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA-VoQBK8V0xOjAt5defkdw4XUeGWv6jvc"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
