@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:relevart/services/cloud/cloud_storage_constants.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 
@@ -39,6 +40,20 @@ class FirebaseCloudStorage {
       completed: false,
       travelday: [],
     );
+  }
+
+/*  Future<void> updateTravel({
+    required String travelId,
+    required String textDay,
+  }) async {
+    return travel.doc(travelId).update({traveldayFieldName: textDay});
+  }*/
+
+    Future<void> addNewTravelday({
+    required String travelId,
+    required String textDay,
+  }) async {
+    return travel.doc(travelId).update({traveldayFieldName: FieldValue.arrayUnion([textDay])});
   }
 
   static final FirebaseCloudStorage _shared =
