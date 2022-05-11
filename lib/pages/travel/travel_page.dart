@@ -67,6 +67,7 @@ class TravelPage extends StatelessWidget {
               thickness: 2,
             ),
             Text('нет записей'),
+            Text('${travelById.travelday}'),
             Divider(
               thickness: 2,
             ),

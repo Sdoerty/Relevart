@@ -19,13 +19,15 @@ class FirebaseCloudStorage {
     required String description,
     required DateTime dateTravel,
     required bool completed,
+    required List<dynamic> travelday,
   }) async {
     final document = await travel.add({
       ownerUserIdFieldName: ownerUserId,
       titleFieldName: title,
       descriptionFieldName: description,
       dateTravelFieldName: dateTravel,
-      completedFieldName: completed
+      completedFieldName: completed,
+      traveldayFieldName: travelday,
     });
     final fetchedTravel = await document.get();
     return CloudTravel(
@@ -35,6 +37,7 @@ class FirebaseCloudStorage {
       description: '',
       dateTravel: DateTime.now(),
       completed: false,
+      travelday: [],
     );
   }
 

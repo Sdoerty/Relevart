@@ -18,7 +18,8 @@ class ModelForm extends ChangeNotifier {
       title: '',
       description: '',
       dateTravel: DateTime.now(),
-      completed: false);
+      completed: false,
+      travelday: ['zero position']);
 
   _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -215,7 +216,8 @@ class _TitleTravelFormWidgetState extends State<TitleTravelFormWidget> {
                             title: model.cloudTravel.title,
                             description: model.cloudTravel.description,
                             dateTravel: date,
-                            completed: model.cloudTravel.completed),
+                            completed: model.cloudTravel.completed,
+                            travelday: model.cloudTravel.travelday),
                         Navigator.of(context).pop(),
                       },
                   child: Text('Создать'),
