@@ -78,7 +78,8 @@ class TravelPage extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday())),
+                       // onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday())),
+                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday(trvlID: travelById.travelId))),
                         child: Text('Добавить запись'),
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 10),
@@ -115,7 +116,7 @@ class TravelPage extends StatelessWidget {
                         child: Column(
                           children: [
                             Text('Завершить путешествие', style: TextStyle(color: Colors.red),),
-                            Text('(будет нельзя редактировать/добалять)', style: TextStyle(fontSize: 13, color: Colors.grey),),
+                            Text('(будет нельзя редактировать/добавлять)', style: TextStyle(fontSize: 13, color: Colors.grey),),
                           ],
                         ),
                         style: ElevatedButton.styleFrom(

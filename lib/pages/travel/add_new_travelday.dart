@@ -6,11 +6,12 @@ import 'package:relevart/style/create_travel_fields.dart';
 
 class ModelAddNewTravelday extends ChangeNotifier{
   final firebaseCloudStorage = FirebaseCloudStorage();
-
+  late String _newDayText;
 }
 
 class AddNewTravelday extends StatelessWidget {
-  const AddNewTravelday({Key? key}) : super(key: key);
+  const AddNewTravelday({Key? key, required this.trvlID}) : super(key: key);
+  final String trvlID;
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +19,19 @@ class AddNewTravelday extends StatelessWidget {
         appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         centerTitle: true,
-        title: Text("Новая запись путешествия"),
+        title: Text("id = $trvlID"),
     ),
     body: ChangeNotifierProvider(
         create: (context) => ModelAddNewTravelday(),
-        child: AddNewTraveldayForm())
+        child: AddNewTraveldayForm(catchTravelId: trvlID))
     );
   }
 }
 
 
 class AddNewTraveldayForm extends StatefulWidget {
-  const AddNewTraveldayForm({Key? key}) : super(key: key);
+  const AddNewTraveldayForm({Key? key, required this.catchTravelId}) : super(key: key);
+  final String catchTravelId;
 
   @override
   State<AddNewTraveldayForm> createState() => _AddNewTraveldayFormState();
@@ -37,9 +39,7 @@ class AddNewTraveldayForm extends StatefulWidget {
 
 class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
   late GoogleMapController mapController;
-
   final LatLng _center = const LatLng(55.741556, 37.620027);
-
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -59,6 +59,9 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextField(
+                    onChanged: (String value){
+                      model._newDayText = value;
+                    },
                     keyboardType: TextInputType.multiline,
                     minLines: 5,
                     maxLines: 5,
@@ -210,7 +213,7 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                   width: double.infinity,
                   child: ElevatedButton(
                       onPressed: () => {
-                        model.firebaseCloudStorage.addNewTravelday(travelId: "c0LzwR0caIni0wxaNF7k", textDay: 'textdsDay'),
+                        model.firebaseCloudStorage.addNewTravelday(travelId: widget.catchTravelId, textDay: model._newDayText),
                         Navigator.of(context).pop(),
                       },
                       child: Text('Добавить запись'),

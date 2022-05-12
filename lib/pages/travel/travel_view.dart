@@ -3,9 +3,9 @@ import 'package:relevart/pages/travel/travel_page.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 
 class TravelView extends StatelessWidget {
+  const TravelView({Key? key, required this.travels}) : super(key: key);
   final Iterable<CloudTravel> travels;
 
-  const TravelView({Key? key, required this.travels}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
