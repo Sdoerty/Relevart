@@ -46,7 +46,7 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<ModelAddNewTravelday>();
+    final model = context.watch<ModelAddNewTravelday>();
     return SingleChildScrollView(
       child: Container(
         color: Color.fromRGBO(243, 243, 243, 0.9),

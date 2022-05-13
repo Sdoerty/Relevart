@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:relevart/pages/travel/add_new_travelday.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
+import 'package:relevart/style/create_travel_fields.dart';
 
 class TravelPage extends StatelessWidget {
   TravelPage({Key? key, required this.travelById}) : super(key: key);
@@ -9,7 +10,6 @@ class TravelPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(actions: [
         IconButton(
@@ -55,21 +55,51 @@ class TravelPage extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.only(top: 15, bottom: 15),
-              child: Row(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("создано: ${travelById.stringFromDate(travelById.dateTravel)}",
+                  Text(
+                      "создано: ${travelById.stringFromDate(travelById.dateTravel)}",
                       style: TextStyle(fontSize: 16, color: Colors.black54)),
+                  Text("всего заметок: ${travelById.travelday.length}")
                 ],
               ),
             ),
-            Divider(
-              thickness: 2,
-            ),
-            Text('нет записей'),
-            Text('${travelById.travelday}'),
-            Divider(
-              thickness: 2,
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: travelById.travelday.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    children: [
+                      Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.all(10),
+                          decoration: selfFieldDecoration(),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text('${travelById.stringFromDate(travelById.dateTravel)}'),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 6,
+                              ),
+                              TextWrapper(
+                                  text: travelById.travelday.elementAt(index)),
+                            ],
+                          )),
+                      SizedBox(
+                        height: 10,
+                      )
+                    ],
+                  ),
+                );
+              },
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -78,7 +108,7 @@ class TravelPage extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                       // onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday())),
+                      // onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday())),
                         onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday(trvlID: travelById.travelId))),
                         child: Text('Добавить запись'),
                         style: ElevatedButton.styleFrom(
@@ -127,268 +157,50 @@ class TravelPage extends StatelessWidget {
                 ],
               ),
             )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            /*Stepper(
-              physics: NeverScrollableScrollPhysics(),
-              steps: getSteps(),
-              controlsBuilder: (BuildContext context, ControlsDetails details) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    OutlinedButton(
-                      onPressed: details.onStepContinue,
-                      child: const Text('СЛЕДУЮЩИЙ ДЕНЬ'),
-                    ),
-                    OutlinedButton(
-                      onPressed: details.onStepCancel,
-                      child: const Text('НАЗАД'),
-                    ),
-                  ],
-                );
-              },
-              currentStep: currentStep,
-              onStepTapped: (int step) {
-                setState(() {
-                  currentStep = step;
-                });
-              },
-              onStepCancel: () {
-                currentStep > 0 ? setState(() => currentStep -= 1) : null;
-              },
-              onStepContinue: () {
-                currentStep < 2 ? setState(() => currentStep += 1) : null;
-              },
-            ),*/
           ],
         ),
       ),
     );
   }
-
-/*List<Step> getSteps() {
-    return [
-      Step(
-        title: Text('ДЕНЬ 1'),
-        subtitle: Text('11.01.2021'),
-        content: Column(
-          children: [
-            SizedBox(
-              width: 400,
-              child:
-                Text(
-                  'Переезд через перевал',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                )
-              ,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Divider(height: 1,),
-            ),
-            SizedBox(
-              width: 400,
-              child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
-            ),
-            SizedBox(
-              width: 500,
-              height: 200,
-              child: GridView.count(
-                scrollDirection: Axis.horizontal,
-                primary: false,
-                padding: const EdgeInsets.all(20),
-                mainAxisSpacing: 5,
-                crossAxisCount: 1,
-                children: <Widget>[
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-      Step(
-        title: Text('ДЕНЬ 2'),
-        subtitle: Text('12.01.2021'),
-        content: Column(
-          children: [
-            SizedBox(
-              width: 400,
-              child:
-              Text(
-                'Переезд через перевал',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              )
-              ,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Divider(height: 1,),
-            ),
-            SizedBox(
-              width: 400,
-              child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
-            ),
-            SizedBox(
-              width: 500,
-              height: 200,
-              child: GridView.count(
-                scrollDirection: Axis.horizontal,
-                primary: false,
-                padding: const EdgeInsets.all(20),
-                mainAxisSpacing: 5,
-                crossAxisCount: 1,
-                children: <Widget>[
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-      Step(
-        title: Text('ДЕНЬ 2'),
-        subtitle: Text('12.01.2021'),
-        content: Column(
-          children: [
-            SizedBox(
-              width: 400,
-              child:
-              Text(
-                'Переезд через перевал',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              )
-              ,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: Divider(height: 1,),
-            ),
-            SizedBox(
-              width: 400,
-              child: Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."),
-            ),
-            SizedBox(
-              width: 500,
-              height: 200,
-              child: GridView.count(
-                scrollDirection: Axis.horizontal,
-                primary: false,
-                padding: const EdgeInsets.all(20),
-                mainAxisSpacing: 5,
-                crossAxisCount: 1,
-                children: <Widget>[
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                  Container(
-                    child: Image(
-                      image: AssetImage('assets/mountain.jpeg'),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    ];
-  }*/
 }
 
-class TravelPageView extends StatelessWidget {
-  const TravelPageView({Key? key, required this.travels}) : super(key: key);
-  final Iterable<CloudTravel> travels;
+class TextWrapper extends StatefulWidget {
+  const TextWrapper({Key? key, required this.text}) : super(key: key);
 
+  final String text;
+
+  @override
+  _TextWrapperState createState() => _TextWrapperState();
+}
+
+class _TextWrapperState extends State<TextWrapper>
+    with TickerProviderStateMixin {
+  bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          child: ConstrainedBox(
+              constraints: isExpanded
+                  ? const BoxConstraints()
+                  : const BoxConstraints(maxHeight: 70),
+              child: Text(
+                widget.text,
+                style: const TextStyle(fontSize: 16),
+                softWrap: true,
+                overflow: TextOverflow.fade,
+              ))),
+      isExpanded
+          ? TextButton.icon(
+              icon: const Icon(Icons.arrow_upward),
+              label: const Text('Скрыть'),
+              onPressed: () => setState(() => isExpanded = false))
+          : TextButton.icon(
+              icon: const Icon(Icons.arrow_downward),
+              label: const Text('Подробнее'),
+              onPressed: () => setState(() => isExpanded = true))
+    ]);
   }
 }
-
-
-
