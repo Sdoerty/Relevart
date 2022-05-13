@@ -53,7 +53,7 @@ class FirebaseCloudStorage {
     required String travelId,
     required String textDay,
   }) async {
-    return travel.doc(travelId).update({traveldayFieldName: FieldValue.arrayUnion([textDay])});
+    return travel.doc(travelId as String).update({traveldayFieldName: FieldValue.arrayUnion([textDay])});
   }
 
   static final FirebaseCloudStorage _shared =

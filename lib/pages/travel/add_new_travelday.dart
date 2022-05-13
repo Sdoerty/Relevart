@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:relevart/services/cloud/cloud_travel.dart';
 import 'package:relevart/services/cloud/firebase_cloud_storage.dart';
 import 'package:relevart/style/create_travel_fields.dart';
 
@@ -19,7 +20,7 @@ class AddNewTravelday extends StatelessWidget {
         appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         centerTitle: true,
-        title: Text("id = $trvlID"),
+        title: Text("Новая запись путешествия"),
     ),
     body: ChangeNotifierProvider(
         create: (context) => ModelAddNewTravelday(),
@@ -212,9 +213,9 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () => {
-                        model.firebaseCloudStorage.addNewTravelday(travelId: widget.catchTravelId, textDay: model._newDayText),
-                        Navigator.of(context).pop(),
+                      onPressed: () async => {
+                        await model.firebaseCloudStorage.addNewTravelday(travelId: widget.catchTravelId, textDay: model._newDayText),
+                        Navigator.pop(context, true),
                       },
                       child: Text('Добавить запись'),
                       style: ElevatedButton.styleFrom(

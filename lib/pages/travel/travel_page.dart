@@ -3,9 +3,21 @@ import 'package:relevart/pages/travel/add_new_travelday.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 import 'package:relevart/style/create_travel_fields.dart';
 
-class TravelPage extends StatelessWidget {
+class TravelPage extends StatefulWidget {
   TravelPage({Key? key, required this.travelById}) : super(key: key);
   final CloudTravel travelById;
+
+  Future getTravelDayDetails() async{
+    CloudTravel travelDayDetails = await travelById;
+    return travelDayDetails;
+  }
+
+  @override
+  State<TravelPage> createState() => _TravelPageState();
+
+}
+
+class _TravelPageState extends State<TravelPage> {
   int currentStep = 0;
 
   @override
@@ -32,7 +44,7 @@ class TravelPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text("${travelById.title}",
+                    child: Text("${widget.travelById.title}",
                         style: TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.bold,
@@ -47,28 +59,32 @@ class TravelPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text("${travelById.description}",
+                    child: Text("${widget.travelById.description}",
                         style: TextStyle(fontSize: 16, color: Colors.black54)),
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 15),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                      "создано: ${travelById.stringFromDate(travelById.dateTravel)}",
+                  Text("всего заметок: ${widget.travelById.travelday.length}",
                       style: TextStyle(fontSize: 16, color: Colors.black54)),
-                  Text("всего заметок: ${travelById.travelday.length}")
+                  Text("${widget.travelById.stringFromDate(widget.travelById.dateTravel)}",
+                      style: TextStyle(fontSize: 16, color: Colors.black54)),
                 ],
               ),
             ),
+            Divider(
+              thickness: 1,
+            ),
             ListView.builder(
+              padding: EdgeInsets.symmetric(vertical: 10),
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: travelById.travelday.length,
+              itemCount: widget.travelById.travelday.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),
@@ -79,18 +95,20 @@ class TravelPage extends StatelessWidget {
                           padding: EdgeInsets.all(10),
                           decoration: selfFieldDecoration(),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text('${travelById.stringFromDate(travelById.dateTravel)}'),
+                                  Text(
+                                      '${widget.travelById.stringFromDate(widget.travelById.dateTravel)}'),
                                 ],
                               ),
                               SizedBox(
                                 height: 6,
                               ),
                               TextWrapper(
-                                  text: travelById.travelday.elementAt(index)),
+                                  text: widget.travelById.travelday.elementAt(index)),
                             ],
                           )),
                       SizedBox(
@@ -108,51 +126,59 @@ class TravelPage extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                      // onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday())),
-                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddNewTravelday(trvlID: travelById.travelId))),
+                        onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => AddNewTravelday(
+                                    trvlID: widget.travelById.travelId))),
                         child: Text('Добавить запись'),
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 10),
-                            textStyle:
-                            TextStyle(fontSize: 16))),
+                            textStyle: TextStyle(fontSize: 16))),
                   ),
                   SizedBox(height: 5),
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
                         onPressed: () => showDialog<void>(
-                          context: context,
-                          barrierDismissible: false, // user must tap button!
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: const Text('Завершить путешествие?'),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: const Text('Завершить'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: const Text('Отмена'),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                              context: context,
+                              barrierDismissible: false,
+                              // user must tap button!
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('Завершить путешествие?'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: const Text('Завершить'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: const Text('Отмена'),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                         child: Column(
                           children: [
-                            Text('Завершить путешествие', style: TextStyle(color: Colors.red),),
-                            Text('(будет нельзя редактировать/добавлять)', style: TextStyle(fontSize: 13, color: Colors.grey),),
+                            Text(
+                              'Завершить путешествие',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            Text(
+                              '(будет нельзя редактировать/добавлять)',
+                              style:
+                                  TextStyle(fontSize: 13, color: Colors.grey),
+                            ),
                           ],
                         ),
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 10),
-                            textStyle:
-                            TextStyle(fontSize: 16))),
+                            textStyle: TextStyle(fontSize: 16))),
                   ),
                 ],
               ),
