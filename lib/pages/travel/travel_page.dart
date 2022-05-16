@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:relevart/pages/travel/add_new_travelday.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 import 'package:relevart/style/create_travel_fields.dart';
 
-class TravelPage extends StatefulWidget {
-  TravelPage({Key? key, required this.travelById}) : super(key: key);
-  final CloudTravel travelById;
-
-  Future getTravelDayDetails() async{
-    CloudTravel travelDayDetails = await travelById;
-    return travelDayDetails;
+class TravelPageModel extends ChangeNotifier {
+  TravelPageModel({Key? key, required this.travelByIdModel}){
+    returnDay();
   }
+  final CloudTravel travelByIdModel;
 
-  @override
-  State<TravelPage> createState() => _TravelPageState();
-
+  void returnDay() async {
+    await travelByIdModel.travelday;
+    notifyListeners();
+  }
 }
 
-class _TravelPageState extends State<TravelPage> {
-  int currentStep = 0;
+class TravelPageView extends StatelessWidget {
+  const TravelPageView({Key? key, required this.travelByIdView})
+      : super(key: key);
+  final CloudTravel travelByIdView;
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read<TravelPageModel>();
+    final countModel = context.watch<TravelPageModel>();
     return Scaffold(
       appBar: AppBar(actions: [
         IconButton(
@@ -44,7 +47,7 @@ class _TravelPageState extends State<TravelPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text("${widget.travelById.title}",
+                    child: Text("${model.travelByIdModel.title}",
                         style: TextStyle(
                             fontSize: 21,
                             fontWeight: FontWeight.bold,
@@ -59,7 +62,7 @@ class _TravelPageState extends State<TravelPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Flexible(
-                    child: Text("${widget.travelById.description}",
+                    child: Text("${model.travelByIdModel.description}",
                         style: TextStyle(fontSize: 16, color: Colors.black54)),
                   ),
                 ],
@@ -70,9 +73,11 @@ class _TravelPageState extends State<TravelPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("всего заметок: ${widget.travelById.travelday.length}",
+                  Text(
+                      "всего заметок: ${model.travelByIdModel.travelday.length}",
                       style: TextStyle(fontSize: 16, color: Colors.black54)),
-                  Text("${widget.travelById.stringFromDate(widget.travelById.dateTravel)}",
+                  Text(
+                      "${model.travelByIdModel.stringFromDate(model.travelByIdModel.dateTravel)}",
                       style: TextStyle(fontSize: 16, color: Colors.black54)),
                 ],
               ),
@@ -84,7 +89,7 @@ class _TravelPageState extends State<TravelPage> {
               padding: EdgeInsets.symmetric(vertical: 10),
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: widget.travelById.travelday.length,
+              itemCount: model.travelByIdModel.travelday.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),
@@ -101,14 +106,15 @@ class _TravelPageState extends State<TravelPage> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                      '${widget.travelById.stringFromDate(widget.travelById.dateTravel)}'),
+                                      '${model.travelByIdModel.stringFromDate(model.travelByIdModel.dateTravel)}'),
                                 ],
                               ),
                               SizedBox(
                                 height: 6,
                               ),
-                              TextWrapper(
-                                  text: widget.travelById.travelday.elementAt(index)),
+                              Text("${model.travelByIdModel.travelday.elementAt(index)}")
+                              /*TextWrapper(
+                                  text: model.returnDay(index)),*/
                             ],
                           )),
                       SizedBox(
@@ -126,10 +132,12 @@ class _TravelPageState extends State<TravelPage> {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                        onPressed: () => Navigator.of(context).push(
-                            MaterialPageRoute(
+                        onPressed: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => AddNewTravelday(
-                                    trvlID: widget.travelById.travelId))),
+                                      trvlID: model.travelByIdModel.travelId,
+                                      cloudTravelId: model.travelByIdModel,
+                                    ))),
                         child: Text('Добавить запись'),
                         style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(vertical: 10),
@@ -189,6 +197,32 @@ class _TravelPageState extends State<TravelPage> {
     );
   }
 }
+
+// ---------------------------------------------------------------------
+
+class TravelPage extends StatefulWidget {
+  TravelPage({Key? key, required this.travelById}) : super(key: key);
+  final CloudTravel travelById;
+
+  @override
+  State<TravelPage> createState() => _TravelPageState();
+}
+
+class _TravelPageState extends State<TravelPage> {
+  int currentStep = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (_) =>
+            TravelPageModel(travelByIdModel: widget.travelById),
+        child: TravelPageView(
+          travelByIdView: widget.travelById,
+        ));
+  }
+}
+
+// ---------------------------------------------------------------------
 
 class TextWrapper extends StatefulWidget {
   const TextWrapper({Key? key, required this.text}) : super(key: key);

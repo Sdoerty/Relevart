@@ -1,38 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:relevart/pages/travel/travel_page.dart';
 import 'package:relevart/services/cloud/cloud_travel.dart';
 import 'package:relevart/services/cloud/firebase_cloud_storage.dart';
 import 'package:relevart/style/create_travel_fields.dart';
 
-class ModelAddNewTravelday extends ChangeNotifier{
+class ModelAddNewTravelday extends ChangeNotifier {
+  ModelAddNewTravelday(
+      {Key? key, required this.trvlIDModelAddNewTravelday, });
+
   final firebaseCloudStorage = FirebaseCloudStorage();
+  final String trvlIDModelAddNewTravelday;
   late String _newDayText;
+
+  void saveDay(BuildContext context) async{
+    await firebaseCloudStorage.addNewTravelday(travelId: trvlIDModelAddNewTravelday, textDay: _newDayText);
+    Navigator.of(context).pop();
+  }
 }
 
 class AddNewTravelday extends StatelessWidget {
-  const AddNewTravelday({Key? key, required this.trvlID}) : super(key: key);
+  const AddNewTravelday(
+      {Key? key, required this.trvlID, required this.cloudTravelId})
+      : super(key: key);
   final String trvlID;
+  final CloudTravel cloudTravelId;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
-        centerTitle: true,
-        title: Text("Новая запись путешествия"),
-    ),
-    body: ChangeNotifierProvider(
-        create: (context) => ModelAddNewTravelday(),
-        child: AddNewTraveldayForm(catchTravelId: trvlID))
-    );
+          backgroundColor: Colors.blueGrey,
+          centerTitle: true,
+          title: Text("Новая запись путешествия"),
+        ),
+        body: ChangeNotifierProvider(
+            create: (context) => ModelAddNewTravelday(trvlIDModelAddNewTravelday: trvlID),
+            child: AddNewTraveldayForm(
+              catchTravelId: trvlID,
+              catchCloudTravelId: cloudTravelId,
+            )));
   }
 }
 
-
 class AddNewTraveldayForm extends StatefulWidget {
-  const AddNewTraveldayForm({Key? key, required this.catchTravelId}) : super(key: key);
+  const AddNewTraveldayForm(
+      {Key? key, required this.catchTravelId, required this.catchCloudTravelId})
+      : super(key: key);
   final String catchTravelId;
+  final CloudTravel catchCloudTravelId;
 
   @override
   State<AddNewTraveldayForm> createState() => _AddNewTraveldayFormState();
@@ -41,6 +58,7 @@ class AddNewTraveldayForm extends StatefulWidget {
 class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
   late GoogleMapController mapController;
   final LatLng _center = const LatLng(55.741556, 37.620027);
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
@@ -60,7 +78,7 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextField(
-                    onChanged: (String value){
+                    onChanged: (String value) {
                       model._newDayText = value;
                     },
                     keyboardType: TextInputType.multiline,
@@ -70,8 +88,7 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                         border: InputBorder.none,
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         floatingLabelAlignment: FloatingLabelAlignment.center,
-                        hintText:
-                        'опишите всё что происходило в этот день...'),
+                        hintText: 'опишите всё что происходило в этот день...'),
                   ),
                 ),
               ),
@@ -150,11 +167,14 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                       child: OutlinedButton.icon(
                         onPressed: () => showDialog<void>(
                           context: context,
-                          barrierDismissible: false, // user must tap button!
+                          barrierDismissible: false,
+                          // user must tap button!
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              insetPadding: EdgeInsets.symmetric(horizontal: 16),
-                              title: Text('Можно указать метки или нарисовать маршрут'),
+                              insetPadding:
+                                  EdgeInsets.symmetric(horizontal: 16),
+                              title: Text(
+                                  'Можно указать метки или нарисовать маршрут'),
                               content: Container(
                                 height: 500,
                                 width: 500,
@@ -184,8 +204,8 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                           },
                         ),
                         style: ElevatedButton.styleFrom(
-                          padding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 20),
                         ),
                         icon: Icon(
                           Icons.map,
@@ -193,7 +213,8 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                         ),
                         label: Text(
                           'Указать метки на карте',
-                          style: TextStyle(color: Colors.blueGrey, fontSize: 16),
+                          style:
+                              TextStyle(color: Colors.blueGrey, fontSize: 16),
                         ),
                       ),
                     ),
@@ -213,9 +234,8 @@ class _AddNewTraveldayFormState extends State<AddNewTraveldayForm> {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                      onPressed: () async => {
-                        await model.firebaseCloudStorage.addNewTravelday(travelId: widget.catchTravelId, textDay: model._newDayText),
-                        Navigator.pop(context, true),
+                      onPressed: () {
+                        model.saveDay(context);
                       },
                       child: Text('Добавить запись'),
                       style: ElevatedButton.styleFrom(
