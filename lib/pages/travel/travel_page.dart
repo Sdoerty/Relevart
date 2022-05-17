@@ -112,9 +112,8 @@ class TravelPageView extends StatelessWidget {
                               SizedBox(
                                 height: 6,
                               ),
-                              Text("${model.travelByIdModel.travelday.elementAt(index)}")
-                              /*TextWrapper(
-                                  text: model.returnDay(index)),*/
+                              TextWrapper(
+                                  text: model.travelByIdModel.travelday.elementAt(index)),
                             ],
                           )),
                       SizedBox(
